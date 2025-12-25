@@ -4,7 +4,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
 # --- ያንተ መረጃዎች በትክክል ገብተዋል ---
-TOKEN = '8577126774:AAFuyG2PKh0jaJiZA2pnJNDFtVpWf02PznM'
+TOKEN = '7665281312:AAFl3Q71Fz_-A90jDRXHkCkjMTLugAnS3BA'
 CHANNEL_ID = -1003426701331
 CHANNEL_URL = 'https://t.me/fast_video_save_bot'
 # ----------------------------------
@@ -88,3 +88,4 @@ if __name__ == '__main__':
     print("🚀 ቦቱ በሙሉ አቅሙ ስራ ጀምሯል!")
 
     app.run_polling()
+
