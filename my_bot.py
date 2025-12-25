@@ -50,13 +50,14 @@ async def download_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
     file_name = f"{user_id}.mp4"
     
     try:
-      # የyt-dlp ማስተካከያ
-        ydl_opts = {
-            'format': 'best',
-            'outtmpl': file_name,
-            'quiet': True,
-            'no_warnings': True,
-            'cookiefile': 'cookies.txt',
+   # የyt-dlp ማስተካከያ
+    ydl_opts = {
+        'format': 'best',
+        'outtmpl': file_name,
+        'quiet': True,
+        'no_warnings': True,
+        'cookiefile': 'cookies.txt',
+    }
         }
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -88,4 +89,5 @@ if __name__ == '__main__':
     print("🚀 ቦቱ በሙሉ አቅሙ ስራ ጀምሯል!")
 
     app.run_polling()
+
 
