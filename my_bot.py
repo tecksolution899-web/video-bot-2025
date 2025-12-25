@@ -87,6 +87,27 @@ if __name__ == '__main__':
     
     print("🚀 ቦቱ በሙሉ አቅሙ ስራ ጀምሯል!")
     app.run_polling()
+import http.server
+import socketserver
+import threading
+
+# Render ለሚጠይቀው Port ምላሽ ለመስጠት
+def run_health_check():
+    PORT = int(os.environ.get("PORT", 8080))
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", PORT), handler) as httpd:
+        httpd.serve_forever()
+
+if __name__ == '__main__':
+    # Health check በሌላ በኩል እንዲሰራ ማድረግ
+    threading.Thread(target=run_health_check, daemon=True).start()
+    
+    app = ApplicationBuilder().token(TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, download_video))
+    
+    print("🚀 ቦቱ በነፃው ሰርቨር ስራ ጀምሯል!")
+    app.run_polling()
 
 
 
