@@ -13,7 +13,6 @@ async def check_membership(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     try:
         member = await context.bot.get_chat_member(chat_id=CHANNEL_ID, user_id=user_id)
-        # አባል፣ አድሚን ወይም ባለቤት ከሆነ True ይመልሳል
         return member.status in ['member', 'administrator', 'creator']
     except Exception as e:
         print(f"የአባልነት ፍተሻ ስህተት: {e}")
@@ -50,24 +49,24 @@ async def download_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
     file_name = f"{user_id}.mp4"
     
     try:
-   # የyt-dlp ማስተካከያ
-    ydl_opts = {
-        'format': 'best',
-        'outtmpl': file_name,
-        'quiet': True,
-        'no_warnings': True,
-        'cookiefile': 'cookies.txt',
-    }
+        # የyt-dlp ማስተካከያ (Indentation አስተካክያለሁ)
+        ydl_opts = {
+            'format': 'best',
+            'outtmpl': file_name,
+            'quiet': True,
+            'no_warnings': True,
+            'cookiefile': 'cookies.txt',
         }
-        }
+        
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
         
         # 3. ቪዲዮውን መላክ
-        await update.message.reply_video(
-            video=open(file_name, 'rb'),
-            caption="ባለዎት ፍጥነት ተጠቅመው ስላወረዱ እናመሰግናለን! ✅\n\n@fast_video_save_bot"
-        )
+        with open(file_name, 'rb') as video:
+            await update.message.reply_video(
+                video=video,
+                caption="ባለዎት ፍጥነት ተጠቅመው ስላወረዱ እናመሰግናለን! ✅\n\n@fast_video_save_bot"
+            )
         
         # 4. ፋይሉን ማጥፋት
         await status_msg.delete()
@@ -76,7 +75,7 @@ async def download_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
     except Exception as e:
         print(f"Download error: {e}")
-        await update.message.reply_text("❌ ስህተት ተፈጥሯል! ሊንኩን ወይም ኢንተርኔትዎን ያረጋግጡ።")
+        await update.message.reply_text(f"❌ ስህተት ተፈጥሯል! \nምክንያት፡ {str(e)}")
         if os.path.exists(file_name):
             os.remove(file_name)
 
@@ -87,7 +86,7 @@ if __name__ == '__main__':
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, download_video))
     
     print("🚀 ቦቱ በሙሉ አቅሙ ስራ ጀምሯል!")
-
     app.run_polling()
+
 
 
